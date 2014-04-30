@@ -1,0 +1,58 @@
+doctype html
+html
+	head
+
+		link(href="normalize.css", rel="stylesheet")
+		link(href="application.css", rel="stylesheet")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+
+	body(class="one")
+		nav
+			a(href="#", class="left") left
+			select(name="")
+				option(value="one") one
+				option(value="two") two
+			a(href="#", class="right") right
+		div#wrapper 
+			div#content
+				h2 Blah Content Section
+				ul
+					- for (i=0; i<50; i++) {
+						li= "Lots of content here..." + i
+					- }
+		div.off-canvas.left
+			ul
+				- for (i=0; i<50; i++) {
+					li= "Left Navigation Options..." + i
+				- }
+		div.off-canvas.right
+			ul
+				- for (i=0; i<50; i++) {
+					li= "Left Navigation Options..." + i
+				- }
+
+		script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+		script(src="fastclick.js")
+		script(type="text/javascript").
+			$(function() {
+				FastClick.attach(document.body);
+			});
+			$('nav a').click(function(){
+				var baseCl = $(this).attr('class');
+				if ($('body').hasClass(baseCl+'-open')) {
+					$('body').removeClass(baseCl+'-open');
+				} else {
+					$('body').addClass(baseCl+'-open');
+				}
+				return false;
+			});
+			$('select').change(function(){
+				var rmClasses = [];
+				var selVal = $(this).val();
+				$(this).find('option').each(function(){
+					if ($(this).val() !== selVal) {
+						rmClasses.push( $(this).val() );
+					}
+				});
+				$('body').removeClass( rmClasses.join(' ') ).addClass( selVal );
+			});
